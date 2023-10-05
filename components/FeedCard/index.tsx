@@ -3,25 +3,37 @@ import React from "react";
 import { BiMessageRounded, BiUpload } from "react-icons/bi";
 import { FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
+import { Tweet } from "@/gql/graphql";
+import Link from "next/link";
 
-const FeedCard: React.FC = () => {
+interface FeedCardProps {
+  data: Tweet
+}
+
+const FeedCard: React.FC<FeedCardProps> = (props) => {
+  const { data } = props
   return (
     <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-4 hover:bg-slate-900 transition-all cursor-pointer">
       <div className="grid grid-cols-12 gap-3">
         <div className="col-span-1">
-          <Image
+          {data.author?.profileImageURL && <Image
             alt="User Image"
             height={50}
             width={50}
-            src="https://avatars.githubusercontent.com/u/72220579?v=4"
-          />
+            src={data.author?.profileImageURL}
+            className="rounded-full"
+          />}
         </div>
         <div className="col-span-11">
-          <h5>Rana Paul</h5>
+          <h5>
+          <Link href={`/${data.author?.id}`}>
+          {data.author?.firstName} {data.author?.lastName}
+          </Link>
+          </h5>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem
-            velit, laborum ab quas tenetur sequi.dsrgrstg rg rstegtre gtrseg ers5sgt esr5gt es5 erstgrt5sg ers5
+            {data.content}
           </p>
+          {data.imageURL && <Image src={data.imageURL} alt="image" width={400} height={400} />}
           <div className="flex justify-between mt-5 text-xl items-center p-2 w-[90%]">
             <div><BiMessageRounded /></div>
             <div><FaRetweet /></div>
