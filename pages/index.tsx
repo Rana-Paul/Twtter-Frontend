@@ -21,7 +21,7 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   const { user } = useCurrentUser();
-  const { mutate } = useCreateTweet();
+  const { mutateAsync } = useCreateTweet();
   const { tweets = props.tweets as Tweet[] } = useGetAllTweets();
 
   const [content, setContent] = useState("");
@@ -73,10 +73,10 @@ export default function Home(props: HomeProps) {
   const handelCreateTweet = useCallback(async () => {
     if (!content) return;
 
-     mutate({ content: content, imageURL });
+     mutateAsync({ content: content, imageURL });
     setContent("");
     setImageURL("");
-  }, [content, mutate, imageURL]);
+  }, [content, mutateAsync, imageURL]);
 
   return (
     <div>

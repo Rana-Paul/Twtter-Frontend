@@ -88,7 +88,6 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
       console.log(cred);
       const googleToken = cred.credential;
       if (!googleToken) return toast.error("Google Token Not Found");
-      console.log("reached gere");
 
       const { verifyGoogleToken } = await graphqlClient.request(
         verifyUserGoogleTokenQuery,
@@ -96,7 +95,6 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
       );
 
       toast.success("Verified Sucess");
-      console.log("token: " + verifyGoogleToken);
 
       if (verifyGoogleToken)
         window.localStorage.setItem("__twitter_token", verifyGoogleToken);
