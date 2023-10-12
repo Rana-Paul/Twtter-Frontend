@@ -39,16 +39,21 @@ const UserProfilePage: NextPage<ServerProps> = (props) => {
     if (!props.userInfo) return;
     await graphqlClient.request(UnFollowUserMutation, {to: props.userInfo?.id});
     await queryClient.invalidateQueries(["current-user"]);
-  },[])
+  },[]);
+
+  const handelLogoutUser = useCallback(() => {
+    window.localStorage.removeItem("__twitter_token");
+    router.push("/");
+  },[]);
 
   return (
     <div>
       <Twitterlayout>
-        <div>
-          <nav className="flex items-center gap-3 py-3 px-2">
-            <BsArrowLeftShort className="text-4xl" />
-            <div>
-              <h1 className="font-bold">
+        <div >
+          <nav className="flex lg:grid-cols-10 md:grid md:grid-cols-8 items-center gap-3 py-3 px-2">
+            <BsArrowLeftShort onClick={() => router.back()} className="text-4xl col-span-1 rounded-full hover:bg-gray-600/25 cursor-pointer" />
+            <div className="col-span-7">
+              <h1 className="font-bold w-full">
                 {props.userInfo?.firstName} {props.userInfo?.lastName}
               </h1>
               <h1 className="font-bold text-slate-500 text-sm">
@@ -75,19 +80,30 @@ const UserProfilePage: NextPage<ServerProps> = (props) => {
                 <span>{props.userInfo?.followers?.length} followers</span>
                 <span>{props.userInfo?.following?.length} following</span>
               </div>
-              {currentUser?.id !== props.userInfo?.id && (
+              {currentUser && (
                 <>
-                  {amIFollowing ? (
-                    <button onClick={handelUnFollowUser} className="bg-white px-3 py-1 rounded-full text-black text-sm">
-                      Unfollow
-                    </button>
-                  ) : (
-                    <button onClick={handelFollowUser} className="bg-white px-3 py-1 rounded-full text-black text-sm">
-                      Follow
-                    </button>
-                  )}
+                {currentUser?.id !== props.userInfo?.id ? (
+                  <>
+                    {amIFollowing ? (
+                      <button onClick={handelUnFollowUser} className="bg-white px-3 py-1 rounded-full text-black text-sm">
+                        Unfollow
+                      </button>
+                    ) : (
+                      <button onClick={handelFollowUser} className="bg-white px-3 py-1 rounded-full text-black text-sm">
+                        Follow
+                      </button>
+                    )}
+                  </>
+                ): (
+                  <>
+                    <button onClick={handelLogoutUser} className="bg-white px-3 py-1 rounded-full text-black text-sm">
+                        Logout
+                      </button>
+                  </>
+                )}
                 </>
               )}
+
             </div>
           </div>
 

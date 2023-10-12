@@ -77,17 +77,19 @@ export default function Home(props: HomeProps) {
     setContent("");
     setImageURL("");
   }, [content, mutateAsync, imageURL]);
+ 
 
   return (
     <div>
       <Twitterlayout>
         <div>
-          <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-4 hover:bg-slate-900 transition-all cursor-pointer">
-            <div className="grid grid-cols-12 gap-3">
-              <div className="col-span-1">
+          <h1 className="pb-2 pl-3 text-2xl font-bold mt-1 border border-r-0 border-l-0 border-t-0 border-gray-600">Home</h1>
+          <div className="border border-r-0 border-l-0 border-t-0 border-gray-600 p-4  transition-all cursor-pointer">
+            <div className="md:grid md:grid-cols-12 gap-3">
+              <div className="lg:col-span-1">
                 {user?.profileImageURL && (
                   <Image
-                    className=" rounded-full"
+                    className="hidden md:block rounded-full"
                     alt="User Image"
                     height={50}
                     width={50}
@@ -95,7 +97,7 @@ export default function Home(props: HomeProps) {
                   />
                 )}
               </div>
-              <div className=" col-span-11">
+              <div className="md:col-span-11">
                 <textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
@@ -114,8 +116,9 @@ export default function Home(props: HomeProps) {
                 <div className="mt-2 flex justify-between items-center">
                   <BiImageAlt onClick={handelSelectImage} className="text-xl" />
                   <button
-                    onClick={handelCreateTweet}
-                    className="bg-[#1d9bf0] font-semibold text-sm py-2 px-4 rounded-full  "
+                    onClick={handelCreateTweet} style={  content ==""?{backgroundColor:""}: {backgroundColor:"#2596be",color:"white"}
+                  }
+                    className="bg-blue-600/50 text-white/25 font-semibold text-sm py-2 px-4 rounded-full "
                   >
                     Tweet
                   </button>
@@ -124,9 +127,11 @@ export default function Home(props: HomeProps) {
             </div>
           </div>
         </div>
+        <div className="border border-r-0 border-l-0 border-t-0 border-gray-600">
         {tweets?.map((tweet) =>
           tweet ? <FeedCard key={tweet?.id} data={tweet as Tweet} /> : null
         )}
+        </div>
       </Twitterlayout>
     </div>
   );

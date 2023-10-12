@@ -101,44 +101,46 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
     },
     [queryClient]
   );
+  const indexofelement:any = user?.email.indexOf("@");
 
   return (
-    <div>
-      <div className="grid grid-cols-12 h-screen w-screen sm:px-56">
-        <div className="col-span-2 pt-1 sm:col-span-3 flex sm:justify-end p-4 relative">
-          <div>
-            <div className="text-2xl hover:bg-gray-600 rounded-full p-2 h-fit w-fit cursor-pointer transition-all">
+    <div className="lg:justify-center grid grid-flow-col grid-col-12 lg:flex">
+      <div className="grid grid-flow-col grid-col-12">
+        {/* left */}
+        <div className="flex relative w-[60px] sm:w-[20%]">
+          <div className="mt-1">
+          <div className="text-4xl md:text-5xl hover:text-blue-500 p-2 h-fit w-fit cursor-pointer transition-all hidden sm:block sm:pl-5">
               <BsTwitter />
             </div>
 
-            <div className="mt-1 text-xl font-semibold pr-3">
+            <div className="mt-16 sm:mt-1 text-xl font-semibold pr-3">
               <ul>
                 {sideBarManuItem.map((item) => (
                   <li key={item.title}>
                     <Link
-                      className="flex justify-start items-center gap-3 hover:bg-gray-600 rounded-full px-3 py-2 w-fit cursor-pointer mt-2 transition-all"
+                      className="flex text-xs justify-start items-center gap-3 hover:bg-gray-500/25 rounded-full py-4 px-5 w-fit cursor-pointer transition-all"
                       href={item.link}
                     >
-                      <span className="text-3xl">{item.icon}</span>
-                      <span className="hidden sm:inline">{item.title}</span>
+                      <span className=" md:text-[25px] ">{item.icon}</span>
+                      <span className="hidden sm:inline text-[18px]">{item.title}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
               <div className="mt-5 px-3">
-                <button className="hidden sm:block bg-[#1d9bf0] font-semibold text-lg py-2 px-4 rounded-full w-full ">
+                <button className="hidden sm:block bg-[#1d9bf0] font-semibold text-lg py-2 px-4 rounded-full w-full hover:bg-blue-500 ">
                   Tweet
                 </button>
-                <button className="block sm:hidden bg-[#1d9bf0] font-semibold text-lg py-2 px-4 rounded-full w-full justify-center ">
-                  <BsTwitter />
+                <button className="block sm:hidden bg-[#1d9bf0] font-semibold text-2xs py-2 px-2 rounded-full w-full justify-center ">
+                  <BsTwitter  />
                 </button>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-5 flex gap-2 items-center bg-slate-800 px-3 py-2 rounded-full">
+          <div className="absolute top-2 sm:top-[90%] flex gap-2 items-center w-full p-1  rounded-full">
             {user && user.profileImageURL && (
               <Image
-                className="rounded-full"
+                className="rounded-full "
                 src={user?.profileImageURL}
                 alt="User-Img"
                 height={50}
@@ -146,24 +148,26 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
               />
             )}
 
-            <div className="hidden sm:block">
-              <h3 className=" text-xl">{user?.firstName}</h3>
-              <h3 className=" text-xl">{user?.lastName}</h3>
+            <div className=" hidden sm:block my-2">
+              <h3 className=" text-[15px]">{user?.firstName}{" "}{user?.lastName}</h3>
+              <h6 className="text-gray-400 ">{user?.email?"@":" "}{user?.email.slice(0,indexofelement)}</h6>
             </div>
           </div>
         </div>
-        <div className="col-span-10 sm:col-span-5 border-r-[1px] h-screen overflow-scroll no-scrollbar border-l-[1px] border-gray-600">
+        {/* Mid */}
+        <div className="col-span-12 lg:col-span-10  sm:w-[80%] md:w-full sm:col-span-5 border-r-[1px] h-screen overflow-scroll no-scrollbar border-l-[1px] border-gray-600">
           {props.children}
         </div>
-        <div className="col-span-0 sm:col-span-3 p-5">
+        {/* right */}
+        <div className="col-span-0 hidden lg:block md:w-[350px] sm:col-span-3 p-5">
           {!user ? (
-            <div className="p-5 bg-slate-700 rounded-lg">
+            <div className="p-5 border border-gray-600 hover:bg-slate-800/25 rounded-lg">
               <h1 className="my-2 text-2xl">New to Twitter</h1>
               <GoogleLogin onSuccess={handelLoginWithGoogle} />
             </div>
           ) : (
-            <div className="px-4 py-2 bg-slate-800 rounded-lg mt-4">
-              <h1 className="my-2 text-base mb-5">User you may know</h1>
+            <div className="px-4 py-2 bg-slate-900 rounded-lg mt-4">
+              <h1 className="my-2 text-base font-bold mb-5">User you may know</h1>
               {user?.recommendedUsers?.map((el) => (
                 <div className="flex items-center gap-3 mt-2" key={el?.id}>
                   {el?.profileImageURL && (
@@ -175,9 +179,13 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
                       width={60}
                     />
                   )}
-                  <div className="text-lg">
-                    <div>{el?.firstName} {el?.lastName}</div>
-                    <Link href={`/${el?.id}`} className="bg-white text-black text-sm px-3 py-1 w-full rounded-lg">View</Link>
+                  <div className="flex justify-between p-5 w-full">
+                    <div className="text-lg">{el?.firstName} {el?.lastName}
+                    <div className="text-xs text-gray-500">{user?.email?"@":" "}{el?.email.slice(0,indexofelement)}</div>
+                    </div>
+                   
+                    <div><Link href={`/${el?.id}`} className="bg-white  text-black text-sm px-3 py-1 w-full rounded-[25px] hover:bg-gray-400 ">View</Link></div>
+                    
                   </div>
                 </div>
               ))}
