@@ -52,6 +52,7 @@ query GetUserById($id: ID!) {
     id
     firstName
     lastName
+    email
     profileImageURL
     followers {
       firstName

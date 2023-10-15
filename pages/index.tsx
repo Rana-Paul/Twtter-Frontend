@@ -80,16 +80,17 @@ export default function Home(props: HomeProps) {
  
 
   return (
+    // mid
     <div>
       <Twitterlayout>
         <div>
-          <h1 className="pb-2 pl-3 text-2xl font-bold mt-1 border border-r-0 border-l-0 border-t-0 border-gray-600">Home</h1>
-          <div className="border border-r-0 border-l-0 border-t-0 border-gray-600 p-4  transition-all cursor-pointer">
-            <div className="md:grid md:grid-cols-12 gap-3">
-              <div className="lg:col-span-1">
+          <h1 className="font-bold text-xl p-2" >Home</h1>
+          <div className=" p-3 border border-l-0 border-r-0 border-slate-700">
+            <div className="flex w-full" >
+              <div className="sm:w-[10%]">
                 {user?.profileImageURL && (
                   <Image
-                    className="hidden md:block rounded-full"
+                    className="rounded-full hidden sm:block"
                     alt="User Image"
                     height={50}
                     width={50}
@@ -97,18 +98,19 @@ export default function Home(props: HomeProps) {
                   />
                 )}
               </div>
-              <div className="md:col-span-11">
+              <div className="w-full sm:w-[90%]">
                 <textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="What's happening?"
                   rows={3}
-                  className=" w-full bg-transparent text-xl px-3 border-b border-slate-700"
+                  className=" w-full resize-none bg-transparent text-xl px-3 border-b border-slate-700"
                 ></textarea>
                 {imageURL && (
                   <Image
                     src={imageURL}
                     alt="Tweet Image"
+                    className="cursor-pointer"
                     height={400}
                     width={400}
                   />
@@ -116,9 +118,9 @@ export default function Home(props: HomeProps) {
                 <div className="mt-2 flex justify-between items-center">
                   <BiImageAlt onClick={handelSelectImage} className="text-xl" />
                   <button
-                    onClick={handelCreateTweet} style={  content ==""?{backgroundColor:""}: {backgroundColor:"#2596be",color:"white"}
-                  }
-                    className="bg-blue-600/50 text-white/25 font-semibold text-sm py-2 px-4 rounded-full "
+                    onClick={handelCreateTweet} style={  content ==""?{backgroundColor:""}: {backgroundColor:"#2596be",color:"white"}}
+                  
+                    className="bg-blue-600/50 text-white/25 font-semibold text-sm py-1 sm:py-2 px-4 rounded-full "
                   >
                     Tweet
                   </button>
@@ -127,7 +129,7 @@ export default function Home(props: HomeProps) {
             </div>
           </div>
         </div>
-        <div className="border border-r-0 border-l-0 border-t-0 border-gray-600">
+        <div >
         {tweets?.map((tweet) =>
           tweet ? <FeedCard key={tweet?.id} data={tweet as Tweet} /> : null
         )}

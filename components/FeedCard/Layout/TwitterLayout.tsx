@@ -73,7 +73,7 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
         link: `/${user?.id}`,
       },
       {
-        title: "More Options",
+        title: "More",
         icon: <SlOptions />,
         link: "/",
       },
@@ -101,98 +101,113 @@ const Twitterlayout: React.FC<TwitterLayoutProps> = (props) => {
     },
     [queryClient]
   );
-  const indexofelement:any = user?.email.indexOf("@");
+  const indexofelement: any = user?.email.indexOf("@");
 
   return (
-    <div className="lg:justify-center grid grid-flow-col grid-col-12 lg:flex">
-      <div className="grid grid-flow-col grid-col-12">
-        {/* left */}
-        <div className="flex relative w-[60px] sm:w-[20%]">
-          <div className="mt-1">
-          <div className="text-4xl md:text-5xl hover:text-blue-500 p-2 h-fit w-fit cursor-pointer transition-all hidden sm:block sm:pl-5">
-              <BsTwitter />
-            </div>
+    <div className="w-full flex  justify-center ">
+      {!user ? (
+        <div className=" w-full h-screen justify-center items-center px-5 flex flex-col">
+          <div className="flex  flex-row justify-center  items-center hover:text-blue-500 ">
+           <BsTwitter className="mb-1 sm:block sm:justify-normal justify-center text-3xl mt-2" />
+            <h1 className="mb-1 hidden sm:block sm:justify-normal justify-center text-3xl mt-2 pl-3">Twitter clone</h1>
+          </div>
+          <div className="p-5 border  h-[50%] w-fit sm:w-[50%] lg:w-[50%]  border-gray-600 hover:bg-slate-800/25 rounded-lg flex justify-center flex-col items-center top-0" >
+            <h1 className="my-2 text-2xl">New to Twitter</h1>
+            <GoogleLogin onSuccess={handelLoginWithGoogle} />
+          <div className="mt-10 w-[90%] flex justify-center items-center">
+            <h1>Connect, Share, Explore !</h1>  <BsTwitter className="pl-2 hidden sm:block text-2xl"/>
+          </div>
+          </div>
+        </div>
 
-            <div className="mt-16 sm:mt-1 text-xl font-semibold pr-3">
-              <ul>
-                {sideBarManuItem.map((item) => (
-                  <li key={item.title}>
-                    <Link
-                      className="flex text-xs justify-start items-center gap-3 hover:bg-gray-500/25 rounded-full py-4 px-5 w-fit cursor-pointer transition-all"
-                      href={item.link}
-                    >
-                      <span className=" md:text-[25px] ">{item.icon}</span>
-                      <span className="hidden sm:inline text-[18px]">{item.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-5 px-3">
-                <button className="hidden sm:block bg-[#1d9bf0] font-semibold text-lg py-2 px-4 rounded-full w-full hover:bg-blue-500 ">
-                  Tweet
-                </button>
-                <button className="block sm:hidden bg-[#1d9bf0] font-semibold text-2xs py-2 px-2 rounded-full w-full justify-center ">
-                  <BsTwitter  />
-                </button>
+      ) : (
+        <div className="flex w-full md:w-[90%]  justify-center lg:w-[85%] ">
+          {/* left */}
+          <div className=" w-[20%] sm:w-[20%] h-screen sm:block flex px-2  sm:justify-normal justify-center">
+            <div >
+              <div >
+                <BsTwitter className="hidden mb-1 sm:block sm:justify-normal justify-center text-5xl mt-2 pl-3 hover:text-blue-500 cursor-pointer" />
+              </div>
+
+              <div className="mt-16 sm:mt-0">
+                <ul>
+                  {sideBarManuItem.map((item) => (
+                    <li key={item.title}>
+                      <Link
+                        className="flex text-lg sm:text-[14px] py-1 mb-3 hover:bg-slate-500/20 w-max px-2 sm:px-3 rounded-full"
+                        href={item.link}
+                      >
+                        <span className="flex items-center justify-center pr-2">{item.icon}</span>
+                        <span className="sm:block hidden items-center justify-center">{item.title}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-5">
+                  <button className="hidden sm:block bg-[#1d9bf0] font-semibold text-sm py-1 px-6 sm:py-2 rounded-full w-[90%] hover:bg-blue-500 ">
+                    Tweet
+                  </button>
+                  <button className="block sm:hidden bg-[#1d9bf0] font-semibold text-2xs py-2 px-3 rounded-full w-fit justify-center ">
+                    <BsTwitter />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="absolute top-2 sm:top-[90%] flex">
+              {user && user.profileImageURL && (
+                <Image
+                  className="rounded-full "
+                  src={user?.profileImageURL}
+                  alt="User-Img"
+                  height={40}
+                  width={40}
+                />
+              )}
+
+              <div className="pl-2 hidden sm:block" >
+                <h3 className="text-[12px] font-semibold mt-1">{user?.firstName}{" "}{user?.lastName}</h3>
+                <h6 className="text-[9px] text-gray-500">{user?.email ? "@" : " "}{user?.email.slice(0, indexofelement)}</h6>
               </div>
             </div>
           </div>
-          <div className="absolute top-2 sm:top-[90%] flex gap-2 items-center w-full p-1  rounded-full">
-            {user && user.profileImageURL && (
-              <Image
-                className="rounded-full "
-                src={user?.profileImageURL}
-                alt="User-Img"
-                height={50}
-                width={50}
-              />
-            )}
-
-            <div className=" hidden sm:block my-2">
-              <h3 className=" text-[15px]">{user?.firstName}{" "}{user?.lastName}</h3>
-              <h6 className="text-gray-400 ">{user?.email?"@":" "}{user?.email.slice(0,indexofelement)}</h6>
-            </div>
+          {/* Mid */}
+          <div className=" w-[90%] sm:w-[80%] md:w-[60%] h-screen border border-t-0 border-b-0 border-slate-700">
+            {props.children}
           </div>
-        </div>
-        {/* Mid */}
-        <div className="col-span-12 lg:col-span-10  sm:w-[80%] md:w-full sm:col-span-5 border-r-[1px] h-screen overflow-scroll no-scrollbar border-l-[1px] border-gray-600">
-          {props.children}
-        </div>
-        {/* right */}
-        <div className="col-span-0 hidden lg:block md:w-[350px] sm:col-span-3 p-5">
-          {!user ? (
-            <div className="p-5 border border-gray-600 hover:bg-slate-800/25 rounded-lg">
-              <h1 className="my-2 text-2xl">New to Twitter</h1>
-              <GoogleLogin onSuccess={handelLoginWithGoogle} />
-            </div>
-          ) : (
-            <div className="px-4 py-2 bg-slate-900 rounded-lg mt-4">
-              <h1 className="my-2 text-base font-bold mb-5">User you may know</h1>
+          {/* right */}
+          <div className="w-[30%] lg:w-[40%] hidden md:block p-5">
+
+            <div className="p-2 w-full bg-slate-900 rounded-lg mt-4">
+              <h1 className="mt-2 text-sm lg:text-xl text-center font-bold mb-5">User you may know</h1>
               {user?.recommendedUsers?.map((el) => (
-                <div className="flex items-center gap-3 mt-2" key={el?.id}>
+                <div className="flex items-center  lg:py-3 mt-2" key={el?.id}>
                   {el?.profileImageURL && (
                     <Image
                       src={el.profileImageURL}
                       alt="User Image"
-                      className="rounded-full"
-                      height={60}
-                      width={60}
+                      className="rounded-full hidden lg:block"
+                      height={50}
+                      width={50}
                     />
                   )}
-                  <div className="flex justify-between p-5 w-full">
-                    <div className="text-lg">{el?.firstName} {el?.lastName}
-                    <div className="text-xs text-gray-500">{user?.email?"@":" "}{el?.email.slice(0,indexofelement)}</div>
+                  <div className="flex justify-between pl-2 w-full">
+                    <div className=" text-xs lg:text-lg">{el?.firstName} {el?.lastName}
+                      <div className="text-[10px] lg:text-xs text-gray-500">{user?.email ? "@" : " "}{el?.email.slice(0, indexofelement - 1)}</div>
                     </div>
-                   
-                    <div><Link href={`/${el?.id}`} className="bg-white  text-black text-sm px-3 py-1 w-full rounded-[25px] hover:bg-gray-400 ">View</Link></div>
-                    
+
+                    <div className="justify-center items-center flex">
+                      <Link href={`/${el?.id}`} className="bg-white ml-1 text-black text-[10px] lg:text-sm lg:px-3 px-2 lg:py-1 w-full font-semibold border border-black hover:border-white hover:text-white rounded-[25px] hover:bg-blue-500 ">View</Link>
+                    </div>
+
                   </div>
                 </div>
               ))}
             </div>
-          )}
+
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 };
